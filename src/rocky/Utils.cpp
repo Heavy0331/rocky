@@ -18,6 +18,10 @@
 #   include <pthread.h>
 #endif
 
+#ifdef __APPLE__
+#include <mach-o/dyld.h>
+#endif
+
 #ifdef ROCKY_HAS_ZLIB
 #include <zlib.h>
 ROCKY_ABOUT(zlib, ZLIB_VERSION)
@@ -258,6 +262,12 @@ rocky::util::getExecutableLocation()
 #elif defined(__linux__)
 
     return std::filesystem::canonical("/proc/self/exe").remove_filename().generic_string();
+
+#elif defined(__APPLE__)
+    char buffer[1024];
+    uint32_t size = sizeof(buffer);
+    _NSGetExecutablePath(buffer, &size);
+    return std::filesystem::canonical(buffer).parent_path();
 
 #endif
 
