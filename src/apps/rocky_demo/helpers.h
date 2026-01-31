@@ -40,6 +40,8 @@ namespace ImGui
 
 #ifdef _WIN32
 #define ROCKY_DEMO_DEFAULT_FONT "C:/Windows/Fonts/calibri.ttf"
+#elif __APPLE__
+#define ROCKY_DEMO_DEFAULT_FONT "/System/Library/Fonts/SFNS.ttf"
 #else
 #define ROCKY_DEMO_DEFAULT_FONT "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf"
 #endif

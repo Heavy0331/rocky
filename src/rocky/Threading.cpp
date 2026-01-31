@@ -44,5 +44,16 @@ ROCKY_NAMESPACE::detail::setThreadName(const std::string& name)
         buf[15] = '\0';
         pthread_setname_np(pthread_self(), buf);
     }
+#elif defined __APPLE__
+
+    if (name.size() <= 15) {
+        pthread_setname_np(name.c_str());
+    }
+    else {
+        char buffer[16];
+        memcpy(buffer, name.c_str(), 15);
+        buffer[15] = '\0';
+        pthread_setname_np(buffer);
+    }
 #endif
 }
